@@ -1,21 +1,8 @@
-﻿<?php
+<?php
 
-spl_autoload_register(function ($class) {
-    $prefix = 'App\\';
-    $base_dir = __DIR__ . '/src/';
-
-    $len = strlen($prefix);
-    if (strncmp($prefix, $class, $len) !== 0) {
-        $file = $base_dir . str_replace('\\', '/', $class) . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-        }
-        return;
-    }
-
-    $relative_class = substr($class, $len);
-    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-
+spl_autoload_register(function (string $classe) {
+    $relativeClass = str_replace('App\\', '', $classe);
+    $file = __DIR__ . '/src/' . str_replace('\\', '/', $relativeClass) . '.php';
     if (file_exists($file)) {
         require_once $file;
     }

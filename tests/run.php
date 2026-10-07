@@ -2,13 +2,21 @@
 
 require_once __DIR__ . '/../autoload.php';
 
-echo "Langement des tests...\n\n";
+$echecs = 0;
 
-$testFiles = glob(__DIR__ . '/test_*.php');
-
-foreach ($testFiles as $file) {
-    echo "- Execution de " . basename($file) . "\n";
-    require_once $file;
+function verifier(bool $condition, string $message): void {
+    global $echecs;
+    if ($condition) {
+        echo "[OK] $message\n";
+    } else {
+        echo "[ECHEC] $message\n";
+        $echecs++;
+    }
 }
 
-echo "\nTous les tests ont ete executes.\n";
+foreach (glob(__DIR__ . '/test_*.php') as $fichier) {
+    require $fichier;
+}
+
+echo $echecs === 0 ? "Tous les tests passent.\n" : "$echecs test(s) en echec.\n";
+exit($echecs === 0 ? 0 : 1);
